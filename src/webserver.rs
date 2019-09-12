@@ -31,10 +31,11 @@ pub fn startwebserver<'a>(
   let shtml: String = htmltemp.replace("{{websockets-port}}", &websockets_port);
   {
     let s = server::new(move || {
+      let meh = shtml.clone();
       App::new()
         .resource(r"/static/{tail:.*}", |r| r.method(Method::GET).f(files))
         .resource(r"/{tail:.*}", move |r| {
-          r.method(Method::GET).f(mainpage(shtml.clone()))
+          r.method(Method::GET).f(mainpage(meh))
         })
     });
 
